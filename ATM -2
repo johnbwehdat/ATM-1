@@ -1,0 +1,48 @@
+# Starting balance (global variable, outside everything)
+balance = 10000
+
+def show_menu():
+    """Prints the menu and returns the user's choice."""
+    print("\n--- ATM ---")
+    print("1. Check Balance")
+    print("2. Deposit")
+    print("3. Withdraw")
+    print("4. Exit")
+    choice = input("Choose an option (1-4): ")
+    return choice   # sends the choice back to whoever called this function
+
+def process_choice(choice):
+    """Does the action for the given choice and returns the updated balance."""
+    global balance   # tells Python we want to use and change the outer 'balance' variable
+
+    if choice == "1":
+        print("Your balance is ₦" + str(balance))
+    
+    elif choice == "2":
+        amount = float(input("Enter amount to deposit: "))
+        balance = balance + amount
+        print("Deposited. New balance: ₦" + str(balance))
+    
+    elif choice == "3":
+        amount = float(input("Enter amount to withdraw: "))
+        if amount <= balance:
+            balance = balance - amount
+            print("Withdrawn. New balance: ₦" + str(balance))
+        else:
+            print("Insufficient funds.")
+    
+    elif choice == "4":
+        print("Goodbye!")
+        return "exit"   # special signal to tell the main loop to stop
+    
+    else:
+        print("Invalid choice. Try again.")
+    
+    return "continue"   # signal that the program should keep running
+
+# Main loop — now super simple
+while True:
+    user_choice = show_menu()             # get choice from function 1
+    action = process_choice(user_choice)  # do the action from function 2
+    if action == "exit":
+        break                             # break out of the loop
